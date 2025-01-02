@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRISK3 Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            text-align: center;
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QRISK3 Calculator</h1>
+        <form id="qriskForm">
+            <label for="age">Age (Years)</label>
+            <input type="number" id="age" name="age" min="25" max="84" required>
+            
+            <label for="sex">Sex</label>
+            <select id="sex" name="sex" required>
+                <option value="">Select</option>
+                <option value="1">Male</option>
+                <option value="0">Female</option>
+            </select>
+            
+            <label for="smoker">Are you a smoker?</label>
+            <select id="smoker" name="smoker" required>
+                <option value="">Select</option>
+                <option value="0">Non-Smoker</option>
+                <option value="1">Ex-Smoker</option>
+                <option value="2">Light Smoker</option>
+                <option value="3">Moderate Smoker</option>
+                <option value="4">Heavy Smoker</option>
+            </select>
+            
+            <label for="diabetes">Do you have diabetes?</label>
+            <select id="diabetes" name="diabetes" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
+            <label for="cholesterol">Total Cholesterol (mmol/L)</label>
+            <input type="number" id="cholesterol" name="cholesterol" step="0.1" required>
+            
+            <label for="hdl">HDL Cholesterol (mmol/L)</label>
+            <input type="number" id="hdl" name="hdl" step="0.1" required>
+            
+            <label for="systolicBP">Systolic Blood Pressure (mmHg)</label>
+            <input type="number" id="systolicBP" name="systolicBP" required>
+            
+            <label for="bmi">BMI (kg/m²)</label>
+            <input type="number" id="bmi" name="bmi" step="0.1" required>
+            
+            <label for="familyHistory">Family History of Heart Disease?</label>
+            <select id="familyHistory" name="familyHistory" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
+            <label for="rheumatoidArthritis">Do you have rheumatoid arthritis?</label>
+            <select id="rheumatoidArthritis" name="rheumatoidArthritis" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
+            <label for="atrialFibrillation">Do you have atrial fibrillation?</label>
+            <select id="atrialFibrillation" name="atrialFibrillation" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
+            <label for="chronicKidneyDisease">Do you have chronic kidney disease?</label>
+            <select id="chronicKidneyDisease" name="chronicKidneyDisease" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
+            <button type="button" onclick="calculateQRISK3()">Calculate QRISK3</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        function calculateQRISK3() {
+            const age = parseInt(document.getElementById("age").value, 10);
+            const sex = parseInt(document.getElementById("sex").value, 10);
+            const smoker = parseInt(document.getElementById("smoker").value, 10);
+            const diabetes = parseInt(document.getElementById("diabetes").value, 10);
+            const cholesterol = parseFloat(document.getElementById("cholesterol").value);
+            const hdl = parseFloat(document.getElementById("hdl").value);
+            const systolicBP = parseInt(document.getElementById("systolicBP").value, 10);
+            const bmi = parseFloat(document.getElementById("bmi").value);
+            const familyHistory = parseInt(document.getElementById("familyHistory").value, 10);
+            const rheumatoidArthritis = parseInt(document.getElementById("rheumatoidArthritis").value, 10);
+            const atrialFibrillation = parseInt(document.getElementById("atrialFibrillation").value, 10);
+            const chronicKidneyDisease = parseInt(document.getElementById("chronicKidneyDisease").value, 10);
+
+            if (isNaN(age) || isNaN(cholesterol) || isNaN(hdl) || isNaN(bmi)) {
+                document.getElementById("result").innerText = "Please complete all fields.";
+                return;
+            }
+
+            // Approximate QRISK3 formula for demonstration
+            const qriskScore = 
+                (age * 0.2) +
+                (sex * 1.5) +
+                (smoker * 2) +
+                (diabetes * 3) +
+                (cholesterol * 0.5) -
+                (hdl * 0.3) +
+                (systolicBP * 0.1) +
+                (bmi * 0.2) +
+                (familyHistory * 2) +
+                (rheumatoidArthritis * 1.5) +
+                (atrialFibrillation * 2) +
+                (chronicKidneyDisease * 1.8);
+
+            document.getElementById("result").innerText = 
+                `Your QRISK3 score is approximately: ${qriskScore.toFixed(2)}%`;
+        }
+    </script>
+</body>
+</html>
